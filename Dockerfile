@@ -7,16 +7,16 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install ALL dependencies (including devDependencies like Vite)
+RUN npm ci
 
 # Copy source code
 COPY . .
 
-# Build the application
+# Build the application using Vite
 RUN npm run build
 
-# Production stage
+# Production stage using Nginx
 FROM nginx:alpine
 
 # Copy built assets from build stage
